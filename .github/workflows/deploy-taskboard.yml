@@ -1,0 +1,55 @@
+name: Deploy Taskboard to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "taskboard/**"
+      - ".github/workflows/deploy-taskboard.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Check every app file is cached for offline use
+        working-directory: taskboard
+        run: |
+          missing=0
+          for file in $(find . -type f ! -name sw.js ! -name '*.md' | sed 's|^\./||' | sort); do
+            if ! grep -qF "'./$file'" sw.js; then
+              echo "::error file=taskboard/sw.js::'./$file' is missing from ASSETS in sw.js"
+              missing=1
+            fi
+          done
+          exit $missing
+
+      - name: Stamp service worker version (forces an app update on phones)
+        working-directory: taskboard
+        run: |
+          test "$(grep -c '__BUILD_VERSION__' sw.js)" -eq 1
+          sed -i "s/__BUILD_VERSION__/${GITHUB_SHA::12}/" sw.js
+          grep -n "const VERSION" sw.js
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: taskboard
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

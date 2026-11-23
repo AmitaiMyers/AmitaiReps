@@ -1,0 +1,134 @@
+/*
+ * Design tokens — the single source of truth for color, type, space, shape, elevation and motion.
+ * Components use only these custom properties (no raw hex or px for themeable values).
+ * Spec and measured contrast ratios: DESIGN.md §1–§3, §6.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Brand */
+  --primary: #4f5bd5;
+  --primary-pressed: #3d47b8;
+  --primary-soft: #eceeff;
+  --on-primary: #ffffff;
+  --secondary: #f5b400; /* star / highlights — never used for text */
+
+  /* Neutrals */
+  --canvas: #f6f7fb;
+  --surface: #ffffff;
+  --surface-sunken: #edeff6;
+  --surface-raised: #ffffff;
+  --ink: #1f2033;
+  --ink-secondary: #5c6078;
+  --border: #e2e5ee;
+  --border-control: #8d92ab;
+
+  /* Semantic: text colors meet 4.5:1 on --surface; *-fill colors are for icons and bars */
+  --success: #0a7d4f;
+  --success-fill: #00c875;
+  --warning: #9a5b00;
+  --warning-fill: #fdab3d;
+  --danger: #c62a45;
+  --danger-fill: #e2445c;
+  --info: #2f6fe0;
+
+  /* State overlays */
+  --overlay-hover: rgb(31 32 51 / 6%);
+  --overlay-press: rgb(31 32 51 / 10%);
+  --scrim: rgb(10 12 30 / 45%);
+
+  /* Typography */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", Roboto, "Segoe UI", "Noto Sans Hebrew", "Helvetica Neue",
+    Arial, sans-serif;
+  --text-display: 1.75rem;
+  --leading-display: 1.2;
+  --text-title: 1.25rem;
+  --leading-title: 1.25;
+  --text-heading: 1.0625rem;
+  --leading-heading: 1.3;
+  --text-body: 1rem;
+  --leading-body: 1.45;
+  --text-label: 0.875rem;
+  --leading-label: 1.35;
+  --text-meta: 0.8125rem;
+  --leading-meta: 1.35;
+  --text-overline: 0.75rem;
+  --leading-overline: 1.3;
+  --weight-regular: 450;
+  --weight-medium: 550;
+  --weight-semibold: 650;
+  --weight-bold: 750;
+
+  /* Spacing: 4px grid */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* Shape */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-full: 999px;
+
+  /* Elevation */
+  --shadow-1: 0 1px 2px rgb(20 22 50 / 6%), 0 2px 8px rgb(20 22 50 / 4%);
+  --shadow-2: 0 4px 16px rgb(20 22 50 / 10%);
+  --shadow-3: 0 12px 40px rgb(20 22 50 / 18%);
+
+  /* Sizing */
+  --tap: 44px;
+  --gutter: var(--space-4);
+  --content-width: 760px;
+  --composer-height: 64px;
+
+  /* Motion (read by js/motion.js too, so keep the "ms" unit) */
+  --dur-instant: 90ms;
+  --dur-quick: 160ms;
+  --dur-base: 240ms;
+  --dur-slow: 320ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 0.8, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --primary: #8c95ff;
+    --primary-pressed: #a7aeff;
+    --primary-soft: #2b2f63;
+    --on-primary: #12142a;
+    --secondary: #ffc83d;
+
+    --canvas: #12142a;
+    --surface: #1e2140;
+    --surface-sunken: #272a4c;
+    --surface-raised: #2a2e55;
+    --ink: #ecedf7;
+    --ink-secondary: #a9acc6;
+    --border: #34385c;
+    --border-control: #6b7099;
+
+    --success: #3ddc97;
+    --warning: #ffb547;
+    --danger: #ff7a8f;
+    --info: #7fb0ff;
+
+    --overlay-hover: rgb(236 237 247 / 7%);
+    --overlay-press: rgb(236 237 247 / 12%);
+    --scrim: rgb(4 5 14 / 60%);
+
+    /* Dark theme expresses elevation with lighter surfaces instead of shadows. */
+    --shadow-1: none;
+    --shadow-2: 0 4px 16px rgb(0 0 0 / 35%);
+    --shadow-3: 0 12px 40px rgb(0 0 0 / 50%);
+  }
+}

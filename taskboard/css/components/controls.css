@@ -1,0 +1,445 @@
+/*
+ * Buttons and small controls, plus the shared interaction states (DESIGN.md §4):
+ * rest → hover (pointer devices only) → pressed → focus-visible → disabled → busy.
+ */
+
+/* ---------- Shared interaction states ---------- */
+
+:where(.btn, .icon-btn, .seg-btn, .chip, .pill, .star, .check, .swatch-btn, .composer-target, .composer-send, .project-card, .disclosure-btn, .group-head) {
+  transition:
+    transform var(--dur-quick) var(--ease-standard),
+    background-color var(--dur-quick) var(--ease-standard),
+    color var(--dur-quick) var(--ease-standard),
+    box-shadow var(--dur-quick) var(--ease-standard),
+    opacity var(--dur-quick) var(--ease-standard);
+}
+
+:where(.btn, .icon-btn, .seg-btn, .chip, .pill, .star, .check, .swatch-btn, .composer-target, .composer-send, .project-card, .disclosure-btn):active:not(:disabled) {
+  transform: scale(0.96);
+  transition-duration: var(--dur-instant);
+}
+
+/* A translucent layer over the control's own color, so one rule works for neutral and colored controls. */
+@media (hover: hover) {
+  :where(.btn, .icon-btn, .seg-btn, .chip, .pill, .star, .composer-target, .project-card, .disclosure-btn, .group-head):hover:not(:disabled) {
+    background-image: linear-gradient(var(--overlay-hover), var(--overlay-hover));
+  }
+}
+
+:where(.btn, .icon-btn, .chip):active:not(:disabled) {
+  background-image: linear-gradient(var(--overlay-press), var(--overlay-press));
+}
+
+:disabled,
+[aria-disabled="true"] {
+  opacity: 0.4;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--tap);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: var(--surface);
+  color: var(--ink);
+  font-size: var(--text-label);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-label);
+  text-decoration: none;
+}
+
+.btn-primary {
+  border-color: var(--primary);
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.btn-primary:active:not(:disabled) {
+  background-color: var(--primary-pressed);
+}
+
+.btn-danger {
+  color: var(--danger);
+}
+
+.btn-danger-solid {
+  border-color: var(--danger-fill);
+  background-color: var(--danger-fill);
+  color: #ffffff;
+}
+
+.btn-block {
+  display: flex;
+  width: 100%;
+  margin-top: var(--space-3);
+}
+
+.btn-small {
+  flex: none;
+  min-height: 36px;
+  padding: 0 var(--space-3);
+}
+
+.btn[aria-busy="true"] {
+  pointer-events: none;
+}
+
+.btn[aria-busy="true"] .icon {
+  display: none;
+}
+
+.btn[aria-busy="true"]::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--radius-full);
+  animation: spin 0.8s linear infinite;
+}
+
+.icon-btn {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap);
+  height: var(--tap);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.icon-btn-danger {
+  color: var(--danger);
+}
+
+/* ---------- Segmented control (tabs and view toggle) with a sliding thumb ---------- */
+
+.segmented {
+  position: relative;
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  padding: var(--space-1);
+  border-radius: calc(var(--radius-sm) + var(--space-1));
+  background: var(--surface-sunken);
+}
+
+.segmented-thumb {
+  position: absolute;
+  top: var(--space-1);
+  bottom: var(--space-1);
+  left: var(--space-1);
+  width: calc((100% - 2 * var(--space-1)) / var(--count));
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-1);
+  transform: translateX(calc(var(--index) * 100%));
+  transition: transform var(--dur-base) var(--ease-emphasized);
+}
+
+.seg-btn {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--ink-secondary);
+  font-size: var(--text-label);
+  font-weight: var(--weight-semibold);
+}
+
+.seg-btn.is-active {
+  color: var(--ink);
+}
+
+.seg-count {
+  min-width: 22px;
+  padding: 0 6px;
+  border-radius: var(--radius-full);
+  background: var(--surface-sunken);
+  font-size: var(--text-overline);
+  font-variant-numeric: tabular-nums;
+  line-height: 20px;
+}
+
+.seg-btn.is-active .seg-count {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.segmented-icons {
+  flex: none;
+}
+
+.segmented-icons .seg-btn {
+  width: 44px;
+  min-height: 36px;
+}
+
+/* ---------- Chips (status / priority choices) ---------- */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chips-stacked {
+  flex-direction: column;
+}
+
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: 0 var(--space-4) 0 var(--space-3);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background-color: var(--surface-sunken);
+  color: var(--ink);
+  font-size: var(--text-label);
+  font-weight: var(--weight-semibold);
+}
+
+/* The selected fill grows out of the color dot. */
+.chip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--chip-color);
+  clip-path: circle(0 at 18px 50%);
+  transition: clip-path var(--dur-base) var(--ease-emphasized);
+}
+
+.chip > * {
+  position: relative;
+  z-index: 1;
+}
+
+.chip-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background: var(--chip-color);
+}
+
+.chip .icon {
+  width: 16px;
+  height: 16px;
+  stroke-width: 3;
+}
+
+.chip.is-selected {
+  color: var(--chip-fg);
+  box-shadow: 0 0 0 2px var(--canvas), 0 0 0 4px var(--chip-color);
+}
+
+.chip.is-selected::after {
+  clip-path: circle(150% at 18px 50%);
+}
+
+/* Selected: the check replaces the dot (the fill still grows from where the dot was). */
+.chip.is-selected .chip-dot {
+  display: none;
+}
+
+.chips-stacked .chip {
+  justify-content: flex-start;
+  min-height: 52px;
+  font-size: var(--text-body);
+}
+
+/* ---------- Status pill (in rows) and tags ---------- */
+
+.pill {
+  position: relative;
+  flex: none;
+  max-width: 118px;
+  min-height: 32px;
+  padding: 0 var(--space-3);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background-color: var(--pill-bg);
+  color: var(--pill-fg);
+  font-size: var(--text-meta);
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tag {
+  padding: 1px 7px;
+  border-radius: var(--radius-xs);
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  font-size: var(--text-overline);
+  font-weight: var(--weight-bold);
+}
+
+/* ---------- Star toggle ---------- */
+
+.star {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap);
+  height: var(--tap);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background-color: transparent;
+  color: var(--ink-secondary);
+}
+
+.star .icon {
+  width: 22px;
+  height: 22px;
+}
+
+.star.on {
+  color: var(--secondary);
+}
+
+.star.on .icon {
+  fill: currentColor;
+}
+
+.burst {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  pointer-events: none;
+}
+
+.burst i {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px;
+  border-radius: var(--radius-full);
+  background: var(--secondary);
+}
+
+/* ---------- Checkbox: 44px target around a 24px ring ---------- */
+
+.check {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: none;
+}
+
+.check-box {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border-control);
+  border-radius: var(--radius-full);
+  color: var(--done-fg);
+  transition:
+    background-color var(--dur-quick) var(--ease-standard),
+    border-color var(--dur-quick) var(--ease-standard);
+}
+
+.check-box .icon {
+  width: 14px;
+  height: 14px;
+  stroke-width: 3.5;
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  transition: stroke-dashoffset var(--dur-quick) var(--ease-standard) 60ms;
+}
+
+.check.on .check-box {
+  border-color: var(--done);
+  background-color: var(--done);
+}
+
+.check.on .check-box .icon {
+  stroke-dashoffset: 0;
+}
+
+/* ---------- Color swatches ---------- */
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.swatch {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--swatch);
+  cursor: pointer;
+  transition: box-shadow var(--dur-quick) var(--ease-standard), transform var(--dur-quick) var(--ease-standard);
+}
+
+.swatch:active {
+  transform: scale(0.92);
+}
+
+.swatch input {
+  position: absolute;
+  inset: -4px;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.swatch:has(input:checked) {
+  box-shadow: 0 0 0 3px var(--canvas), 0 0 0 5px var(--ink);
+}
+
+.swatch:has(input:focus-visible) {
+  outline: 2px solid var(--primary);
+  outline-offset: 6px;
+}
+
+.swatch-none {
+  border: 2px dashed var(--border-control);
+}
+
+.swatch-btn {
+  flex: none;
+  width: var(--tap);
+  height: var(--tap);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--swatch);
+  box-shadow: inset 0 0 0 3px var(--surface);
+}

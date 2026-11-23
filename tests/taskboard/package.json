@@ -1,0 +1,11 @@
+{
+  "name": "taskboard-tests",
+  "private": true,
+  "description": "End-to-end tests for the Taskboard PWA (see e2e.cjs).",
+  "scripts": {
+    "test": "node e2e.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}

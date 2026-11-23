@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Taskboard</title>
+    <meta name="description" content="Simple personal projects, ideas and missions.">
+    <meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#12142a" media="(prefers-color-scheme: dark)">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Taskboard">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components/app-bar.css">
+    <link rel="stylesheet" href="css/components/controls.css">
+    <link rel="stylesheet" href="css/components/items.css">
+    <link rel="stylesheet" href="css/components/collections.css">
+    <link rel="stylesheet" href="css/components/forms.css">
+    <link rel="stylesheet" href="css/components/composer.css">
+    <link rel="stylesheet" href="css/components/overlays.css">
+    <link rel="stylesheet" href="css/motion.css">
+    <link rel="stylesheet" href="css/utilities.css">
+    <script type="module" src="js/app.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="skeleton" aria-hidden="true">
+        <div class="skeleton-bar skeleton-bar-title"></div>
+        <div class="skeleton-bar skeleton-bar-card"></div>
+        <div class="skeleton-bar skeleton-bar-card"></div>
+        <div class="skeleton-bar skeleton-bar-card"></div>
+      </div>
+    </div>
+    <dialog id="sheet" class="sheet" aria-labelledby="sheet-title"></dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <noscript><p class="empty">Taskboard needs JavaScript to run.</p></noscript>
+  </body>
+</html>

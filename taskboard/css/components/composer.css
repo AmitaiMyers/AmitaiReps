@@ -1,0 +1,91 @@
+/*
+ * The bottom composer: the one place to add ideas/missions, docked in the thumb zone.
+ * --keyboard-inset (set by js/effects.js from visualViewport) lifts it above the iOS keyboard.
+ */
+
+.composer {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 20;
+  padding: var(--space-3) max(var(--gutter), env(safe-area-inset-right)) calc(var(--space-2) + env(safe-area-inset-bottom))
+    max(var(--gutter), env(safe-area-inset-left));
+  background: linear-gradient(to top, var(--canvas) 65%, transparent);
+  transform: translateY(calc(-1 * var(--keyboard-inset, 0px)));
+}
+
+.composer-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-2);
+  transition: box-shadow var(--dur-quick) var(--ease-standard), border-color var(--dur-quick) var(--ease-standard);
+}
+
+.composer-bar:focus-within {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-2), 0 0 0 3px color-mix(in srgb, var(--primary) 22%, transparent);
+}
+
+.composer-target {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  max-width: 42%;
+  min-height: 40px;
+  padding: 0 var(--space-3);
+  border: 0;
+  border-radius: var(--radius-full);
+  background-color: var(--surface-sunken);
+  font-size: var(--text-label);
+  font-weight: var(--weight-semibold);
+}
+
+.composer-target-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.composer-target .icon {
+  width: 16px;
+  height: 16px;
+  color: var(--ink-secondary);
+}
+
+.composer-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 40px;
+  padding: 0 var(--space-1);
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: var(--text-body);
+}
+
+.composer-send {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+
+/* Nothing to add yet: the send button rests dimmed (Enter on an empty field is a no-op too). */
+.composer:has(.composer-input:placeholder-shown) .composer-send {
+  opacity: 0.35;
+  transform: scale(0.9);
+}
