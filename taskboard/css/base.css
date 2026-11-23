@@ -1,0 +1,145 @@
+/* Reset, typography and page layout. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--canvas);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+a {
+  color: var(--primary);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+p {
+  margin: 0 0 var(--space-2);
+}
+
+::placeholder {
+  color: var(--ink-secondary);
+  opacity: 1;
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Page headings receive programmatic focus on navigation (for screen readers); no visible ring needed. */
+h1[tabindex="-1"]:focus {
+  outline: none;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- Page layout ---------- */
+
+.page {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-4) max(var(--gutter), env(safe-area-inset-right)) calc(var(--space-10) + env(safe-area-inset-bottom))
+    max(var(--gutter), env(safe-area-inset-left));
+}
+
+.page-with-composer {
+  padding-bottom: calc(var(--composer-height) + var(--space-10) + env(safe-area-inset-bottom));
+}
+
+.section {
+  margin-bottom: var(--space-6);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-6) 0 var(--space-2);
+  font-size: var(--text-heading);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-heading);
+}
+
+.dot {
+  display: inline-block;
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background: var(--dot);
+}
+
+/* ---------- Startup skeleton (only shown if loading takes longer than 150ms) ---------- */
+
+.skeleton {
+  padding: var(--space-4);
+  opacity: 0;
+  animation: appear 1ms linear 150ms forwards;
+}
+
+.skeleton-bar {
+  height: 16px;
+  margin-bottom: var(--space-3);
+  border-radius: var(--radius-xs);
+  background: linear-gradient(90deg, var(--surface-sunken) 25%, var(--surface) 50%, var(--surface-sunken) 75%) 0 0 / 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+.skeleton-bar-title {
+  width: 45%;
+  height: 24px;
+  margin-bottom: var(--space-6);
+}
+
+.skeleton-bar-card {
+  height: 84px;
+  border-radius: var(--radius-md);
+}

@@ -1,0 +1,160 @@
+/* Bottom sheet and toast. Both live outside #app, so page re-renders never touch them. */
+
+/* ---------- Bottom sheet ---------- */
+
+.sheet {
+  width: 100%;
+  max-width: 100%;
+  max-height: 88vh;
+  margin: auto 0 0;
+  padding: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-3);
+  color: var(--ink);
+}
+
+.sheet::backdrop {
+  background: var(--scrim);
+}
+
+.sheet-handle-zone {
+  display: grid;
+  place-items: center;
+  height: 28px;
+  touch-action: none;
+  cursor: grab;
+}
+
+.sheet-handle {
+  width: 40px;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background: var(--border-control);
+}
+
+.sheet-body {
+  padding: 0 var(--gutter) calc(var(--space-4) + env(safe-area-inset-bottom));
+}
+
+.sheet-title {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-title);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-title);
+  overflow-wrap: anywhere;
+}
+
+.sheet-text {
+  margin-bottom: var(--space-4);
+  color: var(--ink-secondary);
+}
+
+.sheet-actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.sheet-actions .btn {
+  flex: 1;
+}
+
+.sheet-section {
+  margin-bottom: var(--space-5);
+}
+
+.sheet-row {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.sheet-row .btn {
+  flex: 1;
+}
+
+@media (min-width: 600px) {
+  .sheet {
+    max-width: 440px;
+    margin: auto;
+    border-radius: var(--radius-lg);
+  }
+}
+
+/* ---------- Toast ---------- */
+
+.toast {
+  position: fixed;
+  bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
+  left: 50%;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: max-content;
+  max-width: calc(100vw - 2 * var(--gutter));
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: #24253a;
+  box-shadow: var(--shadow-3);
+  color: #ffffff;
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  transform: translateX(-50%);
+}
+
+body:has(.composer) .toast {
+  bottom: calc(var(--composer-height) + var(--space-3) + env(safe-area-inset-bottom) + var(--keyboard-inset, 0px));
+}
+
+.toast[hidden] {
+  display: none;
+}
+
+.toast-error {
+  background: #b3243a;
+}
+
+.toast-message {
+  flex: 1;
+}
+
+.toast-action,
+.toast-close {
+  flex: none;
+  min-height: 36px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: #ffffff;
+  font-weight: var(--weight-bold);
+}
+
+.toast-action {
+  padding: 0 var(--space-3);
+  background: rgb(255 255 255 / 16%);
+  color: #c9ceff;
+}
+
+.toast-close {
+  width: 36px;
+  background: transparent;
+  font-size: 20px;
+}
+
+/* Exit animation copies (see motion.js animateSheetOut); the real dialog is already closed. */
+.sheet-ghost {
+  position: absolute;
+  margin: 0;
+  max-width: none;
+  max-height: none;
+  overflow: hidden;
+}
+
+.sheet-scrim-ghost {
+  position: absolute;
+  inset: 0;
+  background: var(--scrim);
+}

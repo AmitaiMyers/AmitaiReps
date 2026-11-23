@@ -1,0 +1,87 @@
+/* Sticky, translucent app bar. The hairline appears only once the page is scrolled (html.is-scrolled). */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: calc(56px + env(safe-area-inset-top));
+  padding: env(safe-area-inset-top) max(var(--space-2), env(safe-area-inset-right)) 0 max(var(--space-2), env(safe-area-inset-left));
+  background: var(--canvas);
+  background: color-mix(in srgb, var(--canvas) 85%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-quick) var(--ease-standard);
+  view-transition-name: app-header;
+}
+
+.is-scrolled .app-header {
+  border-bottom-color: var(--border);
+}
+
+.app-header-root {
+  padding-left: max(var(--gutter), env(safe-area-inset-left));
+}
+
+.header-titles {
+  flex: 1;
+  min-width: 0;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-title);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-title);
+}
+
+.header-title-text,
+.header-subtitle {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.header-subtitle {
+  margin: 0;
+  color: var(--ink-secondary);
+  font-size: var(--text-meta);
+  line-height: var(--leading-meta);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.save-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0 var(--space-2);
+  color: var(--success);
+  font-size: var(--text-meta);
+  font-weight: var(--weight-semibold);
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity var(--dur-quick) var(--ease-standard),
+    transform var(--dur-quick) var(--ease-standard);
+}
+
+.save-indicator .icon {
+  width: 14px;
+  height: 14px;
+  stroke-width: 3;
+}
+
+.save-indicator.is-visible {
+  opacity: 1;
+  transform: none;
+}
